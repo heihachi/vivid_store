@@ -6,14 +6,14 @@ use \Concrete\Package\VividStore\Src\Attribute\Key\StoreOrderKey as StoreOrderKe
 ?>
 
 <?php if ($controller->getTask() == 'order'){ ?>
-    
+
     <div class="ccm-dashboard-header-buttons">
         <form action="<?=URL::to('/dashboard/store/orders/details/slip')?>" method="post" target="_blank">
             <input type="hidden" name="oID" value="<?=$order->getOrderID()?>">
             <button class="btn btn-primary"><?php echo t("Print Order Slip")?></button>
         </form>
     </div>
-    
+
     <h3><?=t("Customer Overview")?></h3>
     <hr>
     <div class="row">
@@ -74,7 +74,7 @@ use \Concrete\Package\VividStore\Src\Attribute\Key\StoreOrderKey as StoreOrderKe
             </tr>
         </thead>
         <tbody>
-            <?php 
+            <?php
                 $items = $order->getOrderItems();
 
                 if($items){
@@ -107,7 +107,7 @@ use \Concrete\Package\VividStore\Src\Attribute\Key\StoreOrderKey as StoreOrderKe
             ?>
         </tbody>
     </table>
-    
+
     <?php $applieddiscounts = $order->getAppliedDiscounts();
 
     if (!empty($applieddiscounts)) { ?>
@@ -137,9 +137,9 @@ use \Concrete\Package\VividStore\Src\Attribute\Key\StoreOrderKey as StoreOrderKe
 
             </tbody>
         </table>
-    
+
     <?php } ?>
-    
+
      <p>
         <strong><?=t("Subtotal")?>: </strong><?=Price::format($order->getSubTotal())?><br>
         <?php if ($order->isShippable()) { ?>
@@ -220,18 +220,21 @@ use \Concrete\Package\VividStore\Src\Attribute\Key\StoreOrderKey as StoreOrderKe
                     <h4 class="panel-title"><?=t("Order Options")?></h4>
                 </div>
                 <div class="panel-body">
-                    
+
                     <a id="btn-delete-order" href="<?=View::url("/dashboard/store/orders/remove", $order->getOrderID())?>" class="btn btn-danger"><?=t("Delete Order")?></a>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    
-    
-<?php } else { ?>
 
+
+<?php } else { $valt = Loader::helper('validation/token'); ?>
+    
     <div class="ccm-dashboard-header-buttons">
+        <a id="ccm-export-results" class="btn btn-success" href="<?php echo $view->action('csv', $valt->generate())?>">
+            <i class='fa fa-download'></i> <?php echo t('Export to CSV') ?>
+        </a>
     </div>
 
 <div class="ccm-dashboard-content-full">
